@@ -11,6 +11,7 @@ namespace TestTask.Data.EntityConfigurations
             builder.ToTable("Incidents");
 
             builder.HasKey(i => i.IncidentName);
+            builder.Property(i => i.IncidentName).ValueGeneratedOnAdd();
 
             builder.Property(i => i.Description)
                 .IsRequired()
