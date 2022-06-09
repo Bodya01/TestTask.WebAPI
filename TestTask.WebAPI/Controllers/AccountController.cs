@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TestTask.Data.Dto;
+using TestTask.Data.Entities;
+using TestTask.Data.Infrastructure;
 using TestTask.Domain.FluentValidation;
 using TestTask.Domain.Services.Interfaces;
 
@@ -11,14 +13,17 @@ namespace TestTask.WebAPI.Controllers
     {
         private readonly IAccountService accountService;
         private readonly IContactService contactService;
+        private readonly IRepository<Account> accountRepository;
 
         public AccountController(
             IAccountService accountService,
-            IContactService contactService
+            IContactService contactService,
+            IRepository<Account> accountRepository
             )
         {
             this.accountService = accountService;
             this.contactService = contactService;
+            this.accountRepository = accountRepository;
         }
 
         [HttpGet]
@@ -51,7 +56,7 @@ namespace TestTask.WebAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateAccount(UpdateAccountDto accountDto)
         {
-            var validator = new UpdateAccountDtoValidator(accountService);
+            var validator = new UpdateAccountDtoValidator(accountService, accountRepository);
             var result = await validator.ValidateAsync(accountDto);
 
             if (result.IsValid)
