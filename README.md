@@ -19,7 +19,7 @@ Run Update-Database command in Package Manager Console:
   Update-Database
 ```
 
-This API is using Swagger to make work with it easier.
+## This API is using Swagger to make work with it easier.
 
 ## Usage rules
 
