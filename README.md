@@ -8,7 +8,7 @@ Clone repository by using:
   git clone https://github.com/Bodya01/TestTask.WebAPI.git
 ```
 
-Put you connection string in appsettings.Development.json:
+Put your connection string in appsettings.Development.json:
 
 ```txt
   "DbConnection": "Put your conncetion string here" 
