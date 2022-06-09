@@ -2,7 +2,7 @@
 
 ## How to run this on your device
 
-Clone repository by using:
+Clone repository by runnig git clone command:
 
 ```bash
   git clone https://github.com/Bodya01/TestTask.WebAPI.git
