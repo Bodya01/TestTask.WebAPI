@@ -27,8 +27,6 @@ builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IIncidentService, IncidentService>();
 
-builder.Services.AddTransient<IValidator<CreateIncidentDto>, CreateIncidentDtoValidator>();
-
 builder.Services.AddDbContext<TestTaskContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 

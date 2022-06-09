@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using TestTask.Data.Dto;
 using TestTask.Data.Entities;
 using TestTask.Data.Infrastructure;
@@ -9,7 +10,8 @@ namespace TestTask.Domain.FluentValidation
     public class CreateAccountDtoValidator : AbstractValidator<CreateAccountDto>
     {
         public CreateAccountDtoValidator(
-            IIncidentService incidentService
+            IIncidentService incidentService,
+            IRepository<Account> accountRepository
             )
         {
             RuleFor(x => x.Name).NotNull().NotEmpty().WithMessage("Fill Name field");
@@ -23,6 +25,12 @@ namespace TestTask.Domain.FluentValidation
                 var result = await incidentService.GetByNameAsync(name);
                 return result.isInSystem;
             }).WithMessage("Incident was not found");
+
+            RuleFor(x => x.Name).MustAsync(async (name, cancel) =>
+            {
+                var result = await accountRepository.Query().FirstOrDefaultAsync(a => a.Name == name);
+                return result is null;
+            }).WithMessage("Account with this name already exsists");
         }
     }
 }

@@ -13,14 +13,17 @@ namespace TestTask.WebAPI.Controllers
     {
         private readonly IAccountService accountService;
         private readonly IIncidentService incidentService;
+        private readonly IRepository<Account> accountRepository;
 
         public IncidentController(
             IAccountService accountService,
-            IIncidentService incidentService
+            IIncidentService incidentService,
+            IRepository<Account> accountRepository
             )
         {
             this.accountService = accountService;
             this.incidentService = incidentService;
+            this.accountRepository = accountRepository;
         }
 
         [HttpGet]
@@ -37,14 +40,22 @@ namespace TestTask.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateIncident(CreateIncidentDto createIncidentDto)
         {
-            var incident = await incidentService.CreateIncidentAsync(createIncidentDto);
-            return Ok(incident);
+            var validator = new CreateIncidentDtoValidator(accountRepository);
+            var result = await validator.ValidateAsync(createIncidentDto);
+
+            if (result.IsValid)
+            {
+                var incident = await incidentService.CreateIncidentAsync(createIncidentDto);
+                return Ok(incident);
+            }
+
+            return BadRequest(result.Errors);
         }
 
         [HttpPost("add-account")]
         public async Task<IActionResult> AddAccount(CreateAccountDto accountDto)
         {
-            var validator = new CreateAccountDtoValidator(incidentService);
+            var validator = new CreateAccountDtoValidator(incidentService, accountRepository);
             var result = await validator.ValidateAsync(accountDto);
 
             if (result.IsValid)
