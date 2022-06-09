@@ -1,11 +1,8 @@
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using TestTask.Data.Context;
-using TestTask.Data.Dto;
 using TestTask.Data.Entities;
 using TestTask.Data.Infrastructure;
-using TestTask.Domain.FluentValidation;
 using TestTask.Domain.Services.Implementations;
 using TestTask.Domain.Services.Interfaces;
 
